@@ -23,7 +23,7 @@ def create_app(env_name):
 def register_blueprints(app):
     """Register Blueprints"""
     from scheduling.blueprints.api.room import resource as room_api
-    from scheduling.blueprints.api.schedule import bp as schedule_api
+    from scheduling.blueprints.api.schedule import resource as schedule_api
 
     room_api.init_app(app)
     schedule_api.init_app(app)
