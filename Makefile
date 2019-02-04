@@ -11,5 +11,11 @@ migrations:
 	flask db migrate -m "Created Meeting Room"
 	flask db upgrade
 
+dropdb:
+	dropdb scheduling
+
+create_db:
+	createdb scheduling
+
 clean:
 	rm -rf migrations
