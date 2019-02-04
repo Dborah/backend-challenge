@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify
 from flask_restful import Api, reqparse, Resource, fields
 
-from scheduling.blueprints.api.models import Room
+from scheduling.blueprints.api.models.room_model import Room
 
 from scheduling.blueprints.api.utils import room_serializer
 
@@ -43,7 +43,7 @@ class RoomAPI(Resource):
     @staticmethod
     def delete(room_id):
         query_room = Room.get_one_room(room_id)
-        error_404(query_room, room_id)
+        error_404(query_room, room_id, 'room')
         query_room.delete()
         # Adicionar resposta de retorno, tratar erros e conflitos
         return query_room
