@@ -27,7 +27,7 @@ class RoomAPI(Resource):
     @staticmethod
     def get(room_id):
         query_room = Room.get_one_room(room_id)
-        error_404(query_room, room_id)
+        error_404(query_room, room_id, 'room')
         resp = {'id': query_room.id, 'room_number': query_room.room_number}
         return jsonify(resp)
 
