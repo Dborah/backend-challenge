@@ -4,7 +4,7 @@ from marshmallow import fields, Schema
 # from flask_sqlalchemy import orm
 
 
-class Room(db.Model):
+class RoomModel(db.Model):
     """Room model."""
     __tablename__ = 'rooms'
 
@@ -27,11 +27,11 @@ class Room(db.Model):
 
     @staticmethod
     def get_all_room():
-        return Room.query.all()
+        return RoomModel.query.all()
 
     @staticmethod
     def get_one_room(room_id):
-        return Room.query.get(room_id)
+        return RoomModel.query.get(room_id)
 
     @staticmethod
     def filter_room(room_number):
@@ -40,7 +40,7 @@ class Room(db.Model):
         # except orm.exc.NoResultFound:
         #     raise room_number
         # return resp
-        return Room.query.filter(Room.room_number == room_number).one()
+        return RoomModel.query.filter(RoomModel.room_number == room_number).one()
 
     def __repr__(self):
         return f'room(id={self.id}, room_number={self.room_number})'
