@@ -1,3 +1,4 @@
+from os import getenv
 from flask import Flask
 
 from scheduling.ext.db import db
@@ -6,10 +7,10 @@ from scheduling.ext import migrate
 from settings import app_config
 
 
-def create_app(env_name):
+def create_app():
     app = Flask(__name__)
 
-    app.config.from_object(app_config[env_name])
+    app.config.from_object(app_config[getenv('FLASK_ENV') or 'default'])
 
     # Initialize Extensions
     register_extensions(app)
@@ -22,11 +23,13 @@ def create_app(env_name):
 
 def register_blueprints(app):
     """Register Blueprints"""
-    from scheduling.blueprints.api.room import resource as room_api
-    from scheduling.blueprints.api.schedule import resource as schedule_api
+    from scheduling.blueprints.api.rooms import resource as room_api
+    from scheduling.blueprints.api.schedules import resource as schedules_api
+    from scheduling.blueprints.api.scheduling import resource as schedules_list_filter_api
 
     room_api.init_app(app)
-    schedule_api.init_app(app)
+    schedules_api.init_app(app)
+    schedules_list_filter_api.init_app(app)
     return app
 
 
