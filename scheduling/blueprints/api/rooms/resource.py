@@ -1,11 +1,11 @@
 from flask import Blueprint, jsonify
 from flask_restful import Api, reqparse, Resource, fields
 
-from scheduling.blueprints.api.models.room_model import Room
+from scheduling.blueprints.api.models.room_model import Room as RoomModel
 
 from scheduling.blueprints.api.utils import room_serializer
 
-from scheduling.blueprints.api.errors import error_404
+from scheduling.blueprints.api.errors import error_404, not_found
 
 bp_rest = Blueprint('room_api', __name__, url_prefix='/api/v1')
 api = Api(bp_rest)
@@ -34,12 +34,17 @@ class Rooms(Resource):
     #     return resp
 
     def post(self):
-        room_id = self.args['room_number']
-        room = Room(room_number=room_id)
-        room.save()
-        # Adicionar erro de conflito com sala já existente
-        resp = [{'message': 'New rooms created successfully.'}, {'rooms': room_id}]
-        return resp, 201
+        room_number = self.args['room_number']
+        query_room = RoomModel.filter_room(room_number)
+
+        if query_room is None:
+            room = RoomModel(room_number=room_number)
+            room.save()
+            resp = [{'message': 'New room created successfully.'}, {'id': room.id}]
+            return resp, 201
+
+        if query_room.room_number == room_number:
+            return jsonify({'message': 'Room already exists.'})
 
 
 class RoomItem(Resource):
@@ -49,23 +54,28 @@ class RoomItem(Resource):
 
     # @staticmethod
     # def get(room_id):
-    #     query_room = Room.get_one_room(room_id)
+    #     query_room = RoomModel.get_one_room(room_id)
     #     error_404(query_room, room_id, 'rooms')
     #     resp = {'id': query_room.id, 'room_number': query_room.room_number}
     #     return jsonify(resp)
 
     def put(self, room_id):
         room_number = self.args['room_number']
-        query_room = Room.get_one_room(room_id)
-        error_404(query_room, room_id, 'rooms')
-        # Adicionar erro de conflito com sala já existente
-        room = Room.update(query_room, room_number)
-        resp = {'message': 'Room updated successfully.'}, {'room_number': room.room_number}
-        return jsonify(resp)
+        filter_room = RoomModel.filter_room(room_number)
+
+        if filter_room is None:
+            query_room = RoomModel.get_room(room_id)
+            not_found(query_room)
+            room = RoomModel.update(query_room, room_number)
+            resp = {'message': 'Room updated successfully.'}, {'room_number': room.room_number}
+            return jsonify(resp)
+
+        if filter_room.room_number == room_number:
+            return jsonify({'message': 'Room already exists.'})
 
     @staticmethod
     def delete(room_id):
-        query_room = Room.get_one_room(room_id)
+        query_room = RoomModel.get_room(room_id)
         error_404(query_room, room_id, 'rooms')
         query_room.delete()
         # Adicionar resposta de retorno, tratar erros e conflitos
