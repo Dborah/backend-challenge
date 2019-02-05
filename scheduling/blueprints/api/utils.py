@@ -1,5 +1,4 @@
-from scheduling.blueprints.api.models.room_model import RoomSchema
-from scheduling.blueprints.api.models.scheduling_model import ScheduleSchema
+from scheduling.blueprints.api.schemas import RoomSchema, ScheduleSchema
 
 room_schema = RoomSchema()
 
