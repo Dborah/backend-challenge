@@ -1,11 +1,17 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint
 from flask_restful import Api, reqparse, Resource, fields
 
 from scheduling.blueprints.api.models.room_model import Room as RoomModel
+from scheduling.blueprints.api.models.scheduling_model import Scheduling as SchedulingModel
 
-from scheduling.blueprints.api.utils import room_serializer
-
-from scheduling.blueprints.api.errors import error_404, not_found
+from scheduling.blueprints.api.responses import (
+    resp_does_not_exist,
+    resp_already_exists,
+    resp_created_successfully,
+    resp_update_successfully,
+    resp_delete_successfully,
+    resp_room_linked_to_schedule
+    )
 
 bp_rest = Blueprint('room_api', __name__, url_prefix='/api/v1')
 api = Api(bp_rest)
@@ -24,27 +30,17 @@ class Rooms(Resource):
     def __init__(self):
         self.args = room_parser.parse_args()
 
-    # @staticmethod
-    # def get():
-    #     query = Room.get_all_room()
-    #     resp = room_serializer(query)
-    #     if len(resp) == 0:
-    #         return [{'message': 'No registered rooms.'}][0]
-    #     resp = (resp, 200)
-    #     return resp
-
     def post(self):
         room_number = self.args['room_number']
         query_room = RoomModel.filter_room(room_number)
 
-        if query_room is None:
+        if not query_room:
             room = RoomModel(room_number=room_number)
             room.save()
-            resp = [{'message': 'New room created successfully.'}, {'id': room.id}]
-            return resp, 201
+            return resp_created_successfully('room')
 
         if query_room.room_number == room_number:
-            return jsonify({'message': 'Room already exists.'})
+            return resp_already_exists('Room')
 
 
 class RoomItem(Resource):
@@ -52,34 +48,29 @@ class RoomItem(Resource):
     def __init__(self):
         self.args = room_parser.parse_args()
 
-    # @staticmethod
-    # def get(room_id):
-    #     query_room = RoomModel.get_one_room(room_id)
-    #     error_404(query_room, room_id, 'rooms')
-    #     resp = {'id': query_room.id, 'room_number': query_room.room_number}
-    #     return jsonify(resp)
-
     def put(self, room_id):
         room_number = self.args['room_number']
         filter_room = RoomModel.filter_room(room_number)
 
-        if filter_room is None:
+        if not filter_room:
             query_room = RoomModel.get_room(room_id)
-            not_found(query_room)
-            room = RoomModel.update(query_room, room_number)
-            resp = {'message': 'Room updated successfully.'}, {'room_number': room.room_number}
-            return jsonify(resp)
+            resp_does_not_exist(query_room, f'Room {room_id}')
+            RoomModel.update(query_room, room_number)
+            return resp_update_successfully('Room')
 
         if filter_room.room_number == room_number:
-            return jsonify({'message': 'Room already exists.'})
+            return resp_already_exists('Room')
 
     @staticmethod
     def delete(room_id):
         query_room = RoomModel.get_room(room_id)
-        error_404(query_room, room_id, 'rooms')
+        resp_does_not_exist(query_room, f'Room {room_id}')
+
+        room_filter = SchedulingModel.filter_room_id(room_id)
+        if room_filter:
+            return resp_room_linked_to_schedule(f'{room_id}')
         query_room.delete()
-        # Adicionar resposta de retorno, tratar erros e conflitos
-        return query_room
+        return resp_delete_successfully('Room')
 
 
 def init_app(app):
