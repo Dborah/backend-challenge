@@ -22,9 +22,19 @@ class Scheduling(db.Model):
         db.session.add(self)
         db.session.commit()
 
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
     @staticmethod
     def update(scheduling, data):
-        pass
+        scheduling.title = data['title']
+        scheduling.date = data['date']
+        scheduling.start_time = data['start_time']
+        scheduling.end_time = data['end_time']
+        scheduling.room_number = data['room_number']
+        scheduling.room_id = data['room_id']
+        db.session.commit()
 
     @staticmethod
     def get_all_schedule():
@@ -34,10 +44,18 @@ class Scheduling(db.Model):
     def get_one_scheduling(schedule_id):
         return Scheduling.query.get(schedule_id)
 
+    @staticmethod
+    def filter_date(date):
+        return Scheduling.query.filter(Scheduling.date == date).all()
+
+    @staticmethod
+    def filter_room(room):
+        return Scheduling.query.filter(Scheduling.room_number == room).all()
+
     def __repr__(self):
         return f'schedule(id={self.id}, title={self.title}, date={self.date}, ' \
             f'start_time={self.start_time}, end_time{self.end_time}, ' \
-            f'room_id={self.room_id}, room_number={self.room_number}) '
+            f'room_id={self.room_id}, room_number={self.room_number})!r'
 
 
 class ScheduleSchema(Schema):
