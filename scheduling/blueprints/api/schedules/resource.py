@@ -9,7 +9,7 @@ from scheduling.blueprints.api.utils import schedule_serializer
 from scheduling.blueprints.api.errors import error_404
 
 
-bp_rest = Blueprint('schedule_api', __name__, url_prefix='/api/v1')
+bp_rest = Blueprint('schedules_api', __name__, url_prefix='/api/v1')
 api = Api(bp_rest)
 
 schedule_parser = reqparse.RequestParser()
@@ -55,14 +55,14 @@ class Schedule(Resource):
         resp = [{'message': 'New scheduling created successfully'}, {'id': schedule.id}]
         return resp, 201
 
-    @staticmethod
-    def get():
-        query_schedules = Scheduling.get_all_schedule()
-        resp = schedule_serializer(query_schedules)
-        if len(resp) == 0:
-            return [{'message': 'No registered scheduling.'}][0]
-        resp = (resp, 200)
-        return resp
+    # @staticmethod
+    # def get():
+    #     query_schedules = Scheduling.get_all_schedule()
+    #     resp = schedule_serializer(query_schedules)
+    #     if len(resp) == 0:
+    #         return [{'message': 'No registered scheduling.'}][0]
+    #     resp = (resp, 200)
+    #     return resp
 
 
 class ScheduleItem(Resource):
@@ -70,23 +70,23 @@ class ScheduleItem(Resource):
     def __init__(self):
         self.args = schedule_parser.parse_args()
 
-    @staticmethod
-    def get(scheduling_id):
-        query_scheduling = Scheduling.get_one_scheduling(scheduling_id)
-        error_404(query_scheduling, scheduling_id, 'scheduling')
-
-        room = Room.get_one_room(query_scheduling.room_id)
-
-        resp = {
-            'id': query_scheduling.id,
-            'title': query_scheduling.title,
-            'date': query_scheduling.date,
-            'start_time': query_scheduling.start_time,
-            'end_time': query_scheduling.end_time,
-            'room_id': query_scheduling.room_id,
-            'room_number': room.room_number
-        }
-        return jsonify(resp)
+    # @staticmethod
+    # def get(scheduling_id):
+    #     query_scheduling = Scheduling.get_one_scheduling(scheduling_id)
+    #     error_404(query_scheduling, scheduling_id, 'scheduling')
+    #
+    #     room = Room.get_one_room(query_scheduling.room_id)
+    #
+    #     resp = {
+    #         'id': query_scheduling.id,
+    #         'title': query_scheduling.title,
+    #         'date': query_scheduling.date,
+    #         'start_time': query_scheduling.start_time,
+    #         'end_time': query_scheduling.end_time,
+    #         'room_id': query_scheduling.room_id,
+    #         'room_number': room.room_number
+    #     }
+    #     return jsonify(resp)
 
     def put(self, scheduling_id):
         query_scheduling = Scheduling.get_one_scheduling(scheduling_id)
@@ -121,6 +121,6 @@ class ScheduleItem(Resource):
 
 
 def init_app(app):
-    api.add_resource(Schedule, '/schedules')
-    api.add_resource(ScheduleItem, '/schedules/<int:scheduling_id>')
+    api.add_resource(Schedule, '/schedules', endpoint='schedules')
+    api.add_resource(ScheduleItem, '/schedules/<int:scheduling_id>', endpoint='schedule')
     app.register_blueprint(bp_rest)
