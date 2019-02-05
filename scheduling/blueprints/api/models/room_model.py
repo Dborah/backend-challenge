@@ -1,4 +1,3 @@
-import json
 from scheduling.ext.db import db
 
 from flask_sqlalchemy import orm
