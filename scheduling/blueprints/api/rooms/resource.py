@@ -5,17 +5,17 @@ from scheduling.blueprints.api.models.room_model import Room
 
 from scheduling.blueprints.api.utils import room_serializer
 
-from scheduling.blueprints.api.erros import error_404
+from scheduling.blueprints.api.errors import error_404
 
 bp_rest = Blueprint('room_api', __name__, url_prefix='/api/v1')
 api = Api(bp_rest)
 
 room_parser = reqparse.RequestParser()
-room_parser.add_argument('room_number', type=int)
+room_parser.add_argument('room_number', type=str)
 
 resource_fields = {
     'id': fields.Integer,
-    'room_number': fields.Integer
+    'room_number': fields.String
 }
 
 
@@ -34,7 +34,7 @@ class RoomAPI(Resource):
     def put(self, room_id):
         room_number = self.args['room_number']
         query_room = Room.get_one_room(room_id)
-        error_404(query_room, room_id)
+        error_404(query_room, room_id, 'room')
         # Adicionar erro de conflito com sala já existente
         room = Room.update(query_room, room_number)
         resp = {'message': 'Room updated successfully.'}, {'room_number': room.room_number}
