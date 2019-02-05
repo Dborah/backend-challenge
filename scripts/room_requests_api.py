@@ -48,7 +48,7 @@ if __name__ == '__main__':
 
     print("PUT Room")
     data = {
-        'room_number': 40
+        'room_number': 100
     }
     resp_up = r.room_update(2, data)
     print(resp_up.status_code)
@@ -68,9 +68,9 @@ if __name__ == '__main__':
     # print(resp_post.json())
     # print()
 
-    # print("DELETE Room")
-    # resp_del = r.room_delete(17)
-    # print(resp_del.status_code)
-    # print(resp_del.url)
-    # print(resp_del.headers)
-    # print(resp_del.json())
+    print("DELETE Room")
+    resp_del = r.room_delete(1)
+    print(resp_del.status_code)
+    print(resp_del.url)
+    print(resp_del.headers)
+    print(resp_del.json())

@@ -43,7 +43,7 @@ class Room(db.Model):
         return Room.query.filter(Room.room_number == room_number).one()
 
     def __repr__(self):
-        return f'room(id={self.id}, room_number={self.room_number})'
+        return f'rooms(id={self.id}, room_number={self.room_number})'
 
 
 class RoomSchema(Schema):

@@ -145,4 +145,5 @@ env.bak/
 venv.bak/
 migrations
 temp/
+scripts/
 
