@@ -1,5 +1,4 @@
 from scheduling.ext.db import db
-from marshmallow import fields, Schema
 
 # from flask_sqlalchemy import orm
 
@@ -57,12 +56,3 @@ class Scheduling(db.Model):
             f'start_time={self.start_time}, end_time{self.end_time}, ' \
             f'room_id={self.room_id}, room_number={self.room_number})!r'
 
-
-class ScheduleSchema(Schema):
-    id = fields.Integer(dump_only=True)
-    title = fields.String(dump_only=True)
-    date = fields.String(dump_only=True)
-    start_time = fields.String(dump_only=True)
-    end_time = fields.String(dump_only=True)
-    room_id = fields.Integer(dump_only=True)
-    room_number = fields.String(dump_only=True)
