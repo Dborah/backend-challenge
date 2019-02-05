@@ -1,7 +1,7 @@
+import json
 from scheduling.ext.db import db
-from marshmallow import fields, Schema
 
-# from flask_sqlalchemy import orm
+from flask_sqlalchemy import orm
 
 
 class Room(db.Model):
@@ -26,26 +26,20 @@ class Room(db.Model):
         return room
 
     @staticmethod
-    def get_all_room():
+    def get_rooms():
         return Room.query.all()
 
     @staticmethod
-    def get_one_room(room_id):
+    def get_room(room_id):
         return Room.query.get(room_id)
 
     @staticmethod
     def filter_room(room_number):
-        # try:
-        #     resp = Room.query.filter(Room.room_number == room_number).one()
-        # except orm.exc.NoResultFound:
-        #     raise room_number
-        # return resp
-        return Room.query.filter(Room.room_number == room_number).one()
+        try:
+            room = Room.query.filter(Room.room_number == room_number).one()
+        except orm.exc.NoResultFound:
+            return None
+        return room
 
     def __repr__(self):
         return f'rooms(id={self.id}, room_number={self.room_number})'
-
-
-class RoomSchema(Schema):
-    id = fields.Int(dump_only=True)
-    room_number = fields.String(dump_only=True)
