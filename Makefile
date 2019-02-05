@@ -17,5 +17,8 @@ dropdb:
 create_db:
 	createdb scheduling
 
+run:
+	flask run
+
 clean:
 	rm -rf migrations
