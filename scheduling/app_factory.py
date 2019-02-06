@@ -25,7 +25,7 @@ def register_blueprints(app):
     """Register Blueprints"""
     from scheduling.blueprints.api.rooms import resource as room_api
     from scheduling.blueprints.api.schedules import resource as schedules_api
-    from scheduling.blueprints.api.scheduling import resource as schedules_list_filter_api
+    from scheduling.blueprints.api.schedules_list import resource as schedules_list_filter_api
 
     room_api.init_app(app)
     schedules_api.init_app(app)
