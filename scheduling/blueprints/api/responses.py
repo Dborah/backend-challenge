@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from flask import jsonify
 from flask_restful import abort
 
@@ -8,21 +7,13 @@ def resp_data_invalid():
 
 
 def resp_does_not_exist(resource, msg):
-    """
-    Response 404 Not Found
-
-    :return:
-    """
+    """Response 404 Not Found"""
     if not resource:
         abort(http_status_code=404, message=f"{msg} does not exist.")
 
 
 def resp_already_exists(msg):
-    """
-    Response 400
-
-    :return:
-    """
+    """Response 400"""
     resp = jsonify({
         'message': f'{msg} already exists.'
     })
@@ -30,13 +21,18 @@ def resp_already_exists(msg):
     return resp
 
 
-def resp_created_successfully(msg):
-    """
-    Response 201
-    Feature successfully created
+def resp_room_linked_to_schedule(msg):
+    """Response 401"""
+    resp = jsonify({
+        'message': f'This room {msg} has been reserved for one or more meetings. '
+        f'Please choose another one or try updating it. Or removed to Schedule'
+    })
+    resp.status_code = 401
+    return resp
 
-    :return:
-    """
+
+def resp_created_successfully(msg):
+    """Response 201"""
     resp = jsonify({
         'message': f'New {msg} created successfully.'
     })
@@ -45,12 +41,7 @@ def resp_created_successfully(msg):
 
 
 def resp_update_successfully(msg):
-    """
-    Response 200
-    Feature successfully update
-
-    :return:
-    """
+    """Response 201"""
     resp = jsonify({
         'message': f'{msg} updated successfully.'
     })
@@ -59,12 +50,7 @@ def resp_update_successfully(msg):
 
 
 def resp_delete_successfully(msg):
-    """
-    Response 202
-    Feature successfully delete
-
-    :return:
-    """
+    """Response 202"""
     resp = jsonify({
         'message': f'{msg} delete successfully.'
     })
@@ -72,10 +58,11 @@ def resp_delete_successfully(msg):
     return resp
 
 
-def resp_room_linked_to_schedule():
-    """
-    Response 400
+def resp_successful(resource):
+    """ Response 200"""
+    resp = jsonify(resource)
+    resp.status_code = 200
+    return resp
 
-    :return:
-    """
-    pass
+
+
