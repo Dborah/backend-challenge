@@ -25,10 +25,6 @@ class Room(db.Model):
         return room
 
     @staticmethod
-    def get_rooms():
-        return Room.query.all()
-
-    @staticmethod
     def get_room(room_id):
         return Room.query.get(room_id)
 
