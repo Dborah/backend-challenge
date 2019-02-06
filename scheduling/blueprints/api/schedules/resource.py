@@ -1,13 +1,16 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint
 from flask_restful import Api, reqparse, Resource, fields
 
-from scheduling.blueprints.api.models.room_model import Room
-from scheduling.blueprints.api.models.scheduling_model import Scheduling
+from scheduling.blueprints.api.models.room_model import Room as RoomModel
+from scheduling.blueprints.api.models.scheduling_model import Scheduling as SchedulingModel
 
-from scheduling.blueprints.api.utils import schedule_serializer
-
-from scheduling.blueprints.api.errors import error_404
-
+from scheduling.blueprints.api.responses import (
+    resp_does_not_exist,
+    resp_unavailable,
+    resp_created_successfully,
+    resp_update_successfully,
+    resp_delete_successfully
+    )
 
 bp_rest = Blueprint('schedules_api', __name__, url_prefix='/api/v1')
 api = Api(bp_rest)
@@ -15,18 +18,14 @@ api = Api(bp_rest)
 schedule_parser = reqparse.RequestParser()
 schedule_parser.add_argument('title', type=str)
 schedule_parser.add_argument('date', type=str)
-schedule_parser.add_argument('start_time', type=str)
-schedule_parser.add_argument('end_time', type=str)
-schedule_parser.add_argument('room_number', type=str)
+schedule_parser.add_argument('room_number', type=int)
 
 resource_fields = {
     'id': fields.Integer,
     'title': fields.String,
     'date': fields.String,
-    'start_time': fields.String,
-    'end_time': fields.String,
-    'room_id': fields.Integer,
-    'room_number': fields.String
+    'room_number': fields.Integer,
+    'room_id': fields.Integer
 }
 
 
@@ -36,33 +35,25 @@ class Schedule(Resource):
         self.args = schedule_parser.parse_args()
 
     def post(self):
+        title = self.args['title']
+        date = self.args['date']
         room_number = self.args['room_number']
-        query_room = Room.filter_room(room_number)
 
-        # Adicionar tratamento de erro para o número
-        # Adicionar tratamento para reservar apenas se não houver
-        # agendamento para o período de tempo
+        query_room = RoomModel.filter_room(room_number)
+        if not query_room:
+            return resp_does_not_exist(query_room, 'Room')
 
-        schedule = Scheduling(
-            title=self.args['title'],
-            date=self.args['date'],
-            start_time=self.args['start_time'],
-            end_time=self.args['end_time'],
-            room_id=query_room.id,
-            room_number=query_room.room_number
+        if SchedulingModel.filter_schedules(date, room_number):
+            return resp_unavailable()
+
+        schedule = SchedulingModel(
+            title=title,
+            date=date,
+            room_number=room_number,
+            room_id=query_room.id
         )
         schedule.save()
-        resp = [{'message': 'New scheduling created successfully'}, {'id': schedule.id}]
-        return resp, 201
-
-    # @staticmethod
-    # def get():
-    #     query_schedules = Scheduling.get_all_schedule()
-    #     resp = schedule_serializer(query_schedules)
-    #     if len(resp) == 0:
-    #         return [{'message': 'No registered scheduling.'}][0]
-    #     resp = (resp, 200)
-    #     return resp
+        return resp_created_successfully('scheduling')
 
 
 class ScheduleItem(Resource):
@@ -70,54 +61,37 @@ class ScheduleItem(Resource):
     def __init__(self):
         self.args = schedule_parser.parse_args()
 
-    # @staticmethod
-    # def get(scheduling_id):
-    #     query_scheduling = Scheduling.get_one_scheduling(scheduling_id)
-    #     error_404(query_scheduling, scheduling_id, 'scheduling')
-    #
-    #     room = Room.get_one_room(query_scheduling.room_id)
-    #
-    #     resp = {
-    #         'id': query_scheduling.id,
-    #         'title': query_scheduling.title,
-    #         'date': query_scheduling.date,
-    #         'start_time': query_scheduling.start_time,
-    #         'end_time': query_scheduling.end_time,
-    #         'room_id': query_scheduling.room_id,
-    #         'room_number': room.room_number
-    #     }
-    #     return jsonify(resp)
-
     def put(self, scheduling_id):
-        query_scheduling = Scheduling.get_one_scheduling(scheduling_id)
-        error_404(query_scheduling, scheduling_id, 'scheduling')
-
+        title = self.args['title']
+        date = self.args['date']
         room_number = self.args['room_number']
-        query_room = Room.filter_room(room_number)
-        # Adicionar erros de rooms
+
+        query_scheduling = SchedulingModel.get_scheduling(scheduling_id)
+        if not query_scheduling:
+            return resp_does_not_exist(None, f'Scheduling {scheduling_id}')
+
+        filter_room = RoomModel.filter_room(room_number)
+        if not filter_room:
+            resp_does_not_exist(filter_room, f'Room {room_number}')
+
+        if SchedulingModel.filter_schedules(date, room_number):
+            return resp_unavailable()
 
         data = {
-            'title': self.args['title'],
-            'date': self.args['date'],
-            'start_time': self.args['start_time'],
-            'end_time': self.args['end_time'],
+            'title': title,
+            'date': date,
             'room_number': room_number,
-            'room_id': query_room.id
+            'room_id': filter_room.id
         }
-
-        Scheduling.update(query_scheduling, data)
-        resp = {'message': 'Scheduling updated successfully.'}
-        return jsonify(resp)
+        SchedulingModel.update(query_scheduling, data)
+        return resp_update_successfully('Scheduling')
 
     @staticmethod
     def delete(scheduling_id):
-        query_scheduling = Scheduling.get_one_scheduling(scheduling_id)
-        error_404(query_scheduling, scheduling_id, 'scheduling')
+        query_scheduling = SchedulingModel.get_scheduling(scheduling_id)
+        resp_does_not_exist(query_scheduling, f'Scheduling {scheduling_id}')
         query_scheduling.delete()
-        # Adicionar resposta de retorno, tratar erros e conflitos
-        # Resolver depois, deleta mais não retorna o json com a mensagem
-        message = {'message': 'Scheduling deleted successfully.'}
-        return message
+        return resp_delete_successfully('Scheduling')
 
 
 def init_app(app):
