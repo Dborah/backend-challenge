@@ -83,7 +83,15 @@ def resp_delete_successfully(msg):
     return response
 
 
-
-
-
-
+def resp_not_meeting(msg):
+    """Response """
+    messages = {
+        'room': 'No meetings scheduled in this room.',
+        'date': 'No meeting scheduled on this date.',
+        'meeting': 'No meeting scheduled in this period in this room.'
+    }
+    response = jsonify({
+        'message': messages[msg]
+    })
+    response.status_code = 200
+    return response
