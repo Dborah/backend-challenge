@@ -2,7 +2,7 @@ from marshmallow import fields, Schema
 
 
 class RoomSchema(Schema):
-    id = fields.Int(dump_only=True)
+    id = fields.Integer(dump_only=True)
     room_number = fields.Integer(dump_only=True)
 
 
