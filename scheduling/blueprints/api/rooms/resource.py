@@ -17,11 +17,11 @@ bp_rest = Blueprint('room_api', __name__, url_prefix='/api/v1')
 api = Api(bp_rest)
 
 room_parser = reqparse.RequestParser()
-room_parser.add_argument('room_number', type=str)
+room_parser.add_argument('room_number', type=int)
 
 resource_fields = {
     'id': fields.Integer,
-    'room_number': fields.String
+    'room_number': fields.Integer
 }
 
 

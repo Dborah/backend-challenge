@@ -8,7 +8,7 @@ class Room(db.Model):
     __tablename__ = 'rooms'
 
     id = db.Column(db.Integer, primary_key=True)
-    room_number = db.Column(db.String, nullable=False, unique=True)
+    room_number = db.Column(db.Integer, nullable=False, unique=True)
 
     def save(self):
         db.session.add(self)
@@ -19,8 +19,8 @@ class Room(db.Model):
         db.session.commit()
 
     @staticmethod
-    def update(room, data):
-        room.room_number = data
+    def update(room, room_number):
+        room.room_number = room_number
         db.session.commit()
         return room
 
