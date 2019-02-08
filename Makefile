@@ -1,12 +1,16 @@
 .PHONY: test install pep8 clean
 
-test: pep8
+test:
+	@pytest --verbose --cov= --color=yes tests/
 
 
 install:
-	# Install dependencies
+	virtualenv -p python3.6 .venv
+	source .venv/bin/activate
+	pip install --upgrade pip
+	pip install -r requirements.txt
 
-migrations:
+migrate:
 	flask db init
 	flask db migrate -m "Created Meeting Room"
 	flask db upgrade
@@ -22,3 +26,4 @@ run:
 
 clean:
 	rm -rf migrations
+	rm -rf logs/app.log
