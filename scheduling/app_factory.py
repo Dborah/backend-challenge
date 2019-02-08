@@ -1,16 +1,10 @@
-from os import getenv
+from settings import app_config
 from flask import Flask
 
-from scheduling.ext.db import db
-from scheduling.ext import migrate
 
-from settings import app_config
-
-
-def create_app():
+def create_app(config_name):
     app = Flask(__name__)
-
-    app.config.from_object(app_config[getenv('FLASK_ENV') or 'default'])
+    app.config.from_object(app_config[config_name])
 
     # Initialize Extensions
     register_extensions(app)
@@ -35,6 +29,9 @@ def register_blueprints(app):
 
 def register_extensions(app):
     """Register extensions."""
+    from scheduling.ext.db import db
+    from scheduling.ext import migrate
+
     db.init_app(app)
     migrate.init_app(app, db)
     return app
