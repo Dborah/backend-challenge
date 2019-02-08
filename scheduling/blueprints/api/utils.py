@@ -1,6 +1,6 @@
 from scheduling.blueprints.api.schemas import RoomSchema, ScheduleSchema
 
-room_schema = RoomSchema()
+room_schema = RoomSchema(strict=True)
 
 
 def room_serializer(content):
@@ -8,7 +8,7 @@ def room_serializer(content):
     return serialized
 
 
-schedule_schema = ScheduleSchema()
+schedule_schema = ScheduleSchema(strict=True)
 
 
 def schedule_serializer(content):
