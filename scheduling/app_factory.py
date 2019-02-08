@@ -1,3 +1,4 @@
+import logging
 from settings import app_config
 from flask import Flask
 
@@ -11,6 +12,8 @@ def create_app(config_name):
 
     # Initialize Blueprints
     register_blueprints(app)
+
+    save_logs(app)
 
     return app
 
@@ -34,4 +37,13 @@ def register_extensions(app):
 
     db.init_app(app)
     migrate.init_app(app, db)
+    return app
+
+
+def save_logs(app):
+    logging.basicConfig(
+        filename='logs/app.log',
+        level=logging.DEBUG,
+        format='[%(asctime)s]:%(levelname)s:%(message)s'
+    )
     return app
