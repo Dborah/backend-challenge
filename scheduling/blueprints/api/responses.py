@@ -49,9 +49,9 @@ def resp_does_not_exist(resource, msg):
         abort(http_status_code=404, message=f"{msg} does not exist.")
 
 
-def resp_successful(resource):
+def resp_successful(data):
     """ Response 200"""
-    response = jsonify(resource)
+    response = jsonify(data)
     response.status_code = 200
     return response
 
@@ -75,7 +75,7 @@ def resp_update_successfully(msg):
 
 
 def resp_delete_successfully(msg):
-    """Response 202"""
+    """Response 202 200"""
     response = jsonify({
         'message': f'{msg} delete successfully.'
     })
