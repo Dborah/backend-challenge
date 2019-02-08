@@ -18,7 +18,7 @@ api = Api(bp_rest)
 
 schedule_parser = reqparse.RequestParser()
 schedule_parser.add_argument('date', type=str)
-schedule_parser.add_argument('room_number', type=int)
+schedule_parser.add_argument('room_number', type=str)
 
 
 class SchedulesFilter(Resource):
