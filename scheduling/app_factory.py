@@ -41,6 +41,7 @@ def register_extensions(app):
 
 
 def save_logs(app):
+    """Save Debug Logs"""
     logging.basicConfig(
         filename='logs/app.log',
         level=logging.DEBUG,
