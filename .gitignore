@@ -146,4 +146,8 @@ venv.bak/
 migrations
 temp/
 scripts/
+.pytest_cache
+logs/app.log
+
+
 
