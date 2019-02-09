@@ -13,7 +13,6 @@ class Config:
 class Development(Config):
     """Development environment configuration"""
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
 
 
 class Production(Config):
