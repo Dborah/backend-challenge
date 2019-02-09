@@ -7,10 +7,11 @@ from scheduling.blueprints.api.models.room_model import Room as RoomModel
 from scheduling.blueprints.api.utils import schedule_serializer
 
 from scheduling.blueprints.api.responses import (
-    resp_does_not_exist,
     resp_successful,
     resp_not_meeting
     )
+
+from scheduling.blueprints.api.errors import  error_does_not_exist
 
 bp_rest = Blueprint('schedule_api', __name__, url_prefix='/api/v1')
 api = Api(bp_rest)
@@ -33,7 +34,7 @@ class SchedulesFilter(Resource):
         if not date and not room_number:
             query_schedules = SchedulingModel.get_schedules()
             if not query_schedules:
-                return resp_does_not_exist(None, 'Data')
+                return error_does_not_exist(None, 'Data')
             serialized = schedule_serializer(query_schedules)
             return resp_successful(serialized)
 
@@ -72,7 +73,7 @@ def validate_room(room_number):
     """
     query_filter_room = RoomModel.filter_room(room_number)
     if not query_filter_room:
-        return resp_does_not_exist(None, 'Room')
+        return error_does_not_exist(None, 'Room')
 
 
 def init_app(app):
