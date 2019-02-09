@@ -32,6 +32,8 @@ class SchedulesFilter(Resource):
 
         if not date and not room_number:
             query_schedules = SchedulingModel.get_schedules()
+            if not query_schedules:
+                return resp_does_not_exist(None, 'Data')
             serialized = schedule_serializer(query_schedules)
             return resp_successful(serialized)
 
