@@ -41,7 +41,7 @@ Sobre a configuração do SQLAlchemy: [https://docs.sqlalchemy.org/en/latest/cor
 `$ pip install -r requirements.txt`.
 
 
-## Criando e Gerando Migrações
+## Gerando Migrações
 ```bash
 flask db init
 flask db migrate -m "Created Meeting Room"
@@ -60,9 +60,11 @@ Assim que iniciada a aplicação, um arquivo de `log` será criado na pasta logs
 
 Endpoints de acesso aos Recursos.
 
-Algumas ferramentas e modulos para acessas os recurso da API:
+Algumas ferramentas e modulos para acessar os recurso da API:
 
-[Curl](), [Requests](), [Postman](), [Insomnia]() dentre outros...
+Via terminal [Curl](https://curl.haxx.se/), 
+Usando Scripts em Python com [requests](http://docs.python-requests.org/en/master/), 
+Aplicações para testar API [Postman](https://www.getpostman.com/), [Insomnia](https://insomnia.rest/?utm_content=bufferd23bb&utm_medium=social&utm_source=twitter.com&utm_campaign=buffer).
 
 
 ### API Salas
@@ -89,7 +91,6 @@ Algumas ferramentas e modulos para acessas os recurso da API:
 |--------|--------|--------|--------|
 |GET|`http://127.0.0.1:5000/api/v1/schedules`|200|Lista todos os Agendamentos.|
 |GET|`http://127.0.0.1:5000/api/v1/schedules?date=01/03/2019&room_number=10`|200|Lista e Filtra os Agendamentos por Data e Sala.|
-
 
 
 ## LICENSE
