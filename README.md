@@ -8,12 +8,17 @@ Solução desenvolvida em [python](https://www.python.org/) versão 3.6.8.
 - [Flask](http://flask.pocoo.org/): Micro Framework Web.
 - [PostgreSQL](): Banco de Dados Relacional de alta performance de código aberto.
 - [Pycharm Professional](https://www.jetbrains.com/pycharm/): IDE de desenvolvimento Python.
+- [Ubuntu](http://releases.ubuntu.com/16.04/): versão Ubuntu 16.04.5 LTS.
 
-## Configurando o Ambiente e Instalando Dependências
+## Preparando o Ambiente
+
+**Iniciando o download do projeto:**
+
+`$ git clone git@github.com:fcschmidt/backend-challenge.git`
 
 Criar um arquivo `.env`
 
-Adicionando as variáveis de ambiente:
+**Adicionando as variáveis de ambiente:**
 
 ```text
 export FLASK_APP=manage.py
@@ -23,19 +28,20 @@ DATABASE_URL='dialect+driver://username:password@host:port/database'
 ```
 Sobre a configuração do SQLAlchemy: [https://docs.sqlalchemy.org/en/latest/core/engines.html#database-urls](https://docs.sqlalchemy.org/en/latest/core/engines.html#database-urls)
 
-Criando um ambiente de desenvolvimento isolado: 
+**Criando um ambiente de desenvolvimento isolado com [virtualenv]() ou [pipenv]():**
 
-`virtualenv -p python3.6 .venv`.
+`$ virtualenv -p python3.6 .venv`.
 
-Ativando o ambiente:
+**Ativando o ambiente:**
  
-`source .venv/bin/activate`.
+`$ source .venv/bin/activate`.
 
-Instalando as dependências do sistema: 
+**Instalando as dependências do sistema:**
 
-`pip install -r requirements.txt`.
+`$ pip install -r requirements.txt`.
 
-## Gerando Migrações
+
+## Criando e Gerando Migrações
 ```bash
 flask db init
 flask db migrate -m "Created Meeting Room"
@@ -44,15 +50,20 @@ flask db upgrade
 
 ## Executando a aplicação
 
-Executa a aplicação: `flask run`.
+Executa a aplicação: `$ flask run`.
 
 Rodando na porta padrão, caso não seja alterado: [http://localhost:5000](http://localhost:5000).
 
 Assim que iniciada a aplicação, um arquivo de `log` será criado na pasta logs.
 
-## Recursos API
+## Endpoints RestAPI
 
-Recursos desenvolvidos.
+Endpoints de acesso aos Recursos.
+
+Algumas ferramentas e modulos para acessas os recurso da API:
+
+[Curl](), [Requests](), [Postman](), [Insomnia]() dentre outros...
+
 
 ### API Salas
 
@@ -79,8 +90,6 @@ Recursos desenvolvidos.
 |GET|`http://127.0.0.1:5000/api/v1/schedules`|200|Lista todos os Agendamentos.|
 |GET|`http://127.0.0.1:5000/api/v1/schedules?date=01/03/2019&room_number=10`|200|Lista e Filtra os Agendamentos por Data e Sala.|
 
-
-## Cobertura dos testes
 
 
 ## LICENSE
