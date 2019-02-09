@@ -11,7 +11,7 @@ from scheduling.blueprints.api.responses import (
     resp_not_meeting
     )
 
-from scheduling.blueprints.api.errors import  error_does_not_exist
+from scheduling.blueprints.api.errors import error_does_not_exist
 
 bp_rest = Blueprint('schedule_api', __name__, url_prefix='/api/v1')
 api = Api(bp_rest)
