@@ -75,11 +75,11 @@ def resp_update_successfully(msg):
 
 
 def resp_delete_successfully(msg):
-    """Response 202 200"""
+    """Response 200"""
     response = jsonify({
         'message': f'{msg} delete successfully.'
     })
-    response.status_code = 202
+    response.status_code = 200
     return response
 
 
