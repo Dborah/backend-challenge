@@ -24,11 +24,12 @@ Criar um arquivo `.env`
 export FLASK_APP=manage.py
 export FLASK_ENV=development
 DEBUG=True
-DATABASE_URL='dialect+driver://username:password@host:port/database'
+DATABASE_URL='dialect+driver://username:password@host:port/database' (opcional)
 ```
 
-Sobre a configuração do SQLAlchemy: [https://docs.sqlalchemy.org/en/latest/core/engines.html#database-urls](https://docs.sqlalchemy.org/en/latest/core/engines.html#database-urls)
+Sobre a configuração do SQLAlchemy: [https://docs.sqlalchemy.org/en/latest/core/engines.html#database-urls](https://docs.sqlalchemy.org/en/latest/core/engines.html#database-urls).
 
+Caso não seja inserido o caminho `DATABASE_URL` no aquivo `.env`. Por default ele irá criar uma base de dados usando SQLite, no caminho `sqlite:////var/tmp/scheduling_dev.sqlite`.
 
 **Criando um ambiente de desenvolvimento isolado com [virtualenv](https://virtualenv.pypa.io/en/latest/) ou [pipenv](https://pipenv.readthedocs.io/en/latest/):**
 
@@ -58,7 +59,7 @@ Rodando na porta padrão, caso não seja alterado: [http://localhost:5000](http:
 
 Assim que iniciada a aplicação, um arquivo de `log` será criado na pasta logs.
 
-## Endpoints RestAPI
+## RestAPI Endpoints 
 
 Endpoints de acesso aos Recursos.
 
