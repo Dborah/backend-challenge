@@ -9,6 +9,7 @@ Solução desenvolvida em [python](https://www.python.org/) versão 3.6.8.
 - [PostgreSQL](): Banco de Dados Relacional de alta performance de código aberto.
 - [Pycharm Professional](https://www.jetbrains.com/pycharm/): IDE de desenvolvimento Python.
 - [Ubuntu](http://releases.ubuntu.com/16.04/): versão Ubuntu 16.04.5 LTS.
+- [DBeaver](https://dbeaver.io/download/): Para visualização da Base de Dados. Cliente SQL e ferramenta de administração de banco de dados.
 
 ## Preparando o Ambiente
 
