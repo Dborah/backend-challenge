@@ -19,21 +19,24 @@ Adicionando as variáveis de ambiente:
 export FLASK_APP=manage.py
 export FLASK_ENV=development
 DEBUG=True
-DATABASE_URL='dialect+driver://username:password@host:port/database/'
+DATABASE_URL='dialect+driver://username:password@host:port/database'
 ```
 Sobre a configuração do SQLAlchemy: [https://docs.sqlalchemy.org/en/latest/core/engines.html#database-urls](https://docs.sqlalchemy.org/en/latest/core/engines.html#database-urls)
 
-Criando um ambiente de desenvolvimento isolado: `virtualenv -p python3.6 .venv`.
+Criando um ambiente de desenvolvimento isolado: 
+`virtualenv -p python3.6 .venv`.
 
-Ativando o ambiente: `source .venv/bin/activate`.
+Ativando o ambiente: 
+`source .venv/bin/activate`.
 
-Instalando as dependências do sistema: `pip install -r requirements.txt`.
+Instalando as dependências do sistema: 
+`pip install -r requirements.txt`.
 
 ## Gerando Migrações
 ```bash
-	flask db init
-	flask db migrate -m "Created Meeting Room"
-	flask db upgrade
+flask db init
+flask db migrate -m "Created Meeting Room"
+flask db upgrade
 ```
 
 ## Executando a aplicação
