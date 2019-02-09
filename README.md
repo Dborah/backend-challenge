@@ -26,7 +26,9 @@ export FLASK_ENV=development
 DEBUG=True
 DATABASE_URL='dialect+driver://username:password@host:port/database'
 ```
+
 Sobre a configuração do SQLAlchemy: [https://docs.sqlalchemy.org/en/latest/core/engines.html#database-urls](https://docs.sqlalchemy.org/en/latest/core/engines.html#database-urls)
+
 
 **Criando um ambiente de desenvolvimento isolado com [virtualenv](https://virtualenv.pypa.io/en/latest/) ou [pipenv](https://pipenv.readthedocs.io/en/latest/):**
 
