@@ -24,12 +24,15 @@ DATABASE_URL='dialect+driver://username:password@host:port/database'
 Sobre a configuração do SQLAlchemy: [https://docs.sqlalchemy.org/en/latest/core/engines.html#database-urls](https://docs.sqlalchemy.org/en/latest/core/engines.html#database-urls)
 
 Criando um ambiente de desenvolvimento isolado: 
+
 `virtualenv -p python3.6 .venv`.
 
-Ativando o ambiente: 
+Ativando o ambiente:
+ 
 `source .venv/bin/activate`.
 
 Instalando as dependências do sistema: 
+
 `pip install -r requirements.txt`.
 
 ## Gerando Migrações
