@@ -4,9 +4,7 @@ import settings
 from scheduling.app_factory import create_app
 # from scheduling.ext.db import db
 
-test_db = 'testdb'
 env_name = 'testing'
-DATABASE_URL = f'postgresql+psycopg2://postgres:root@localhost:5432/{test_db}'
 
 
 @pytest.fixture(scope='session')
