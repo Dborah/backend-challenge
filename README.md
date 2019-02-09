@@ -9,11 +9,40 @@ Solução desenvolvida em [python](https://www.python.org/) versão 3.6.8.
 - [PostgreSQL](): Banco de Dados Relacional de alta performance de código aberto.
 - [Pycharm Professional](https://www.jetbrains.com/pycharm/): IDE de desenvolvimento Python.
 
-## Instalando Dependências
-`make install`
+## Configurando o Ambiente e Instalando Dependências
+
+Criar um arquivo `.env`
+
+Adicionando as variáveis de ambiente:
+
+```text
+export FLASK_APP=manage.py
+export FLASK_ENV=development
+DEBUG=True
+DATABASE_URL='dialect+driver://username:password@host:port/database/'
+```
+Sobre a configuração do SQLAlchemy: [https://docs.sqlalchemy.org/en/latest/core/engines.html#database-urls](https://docs.sqlalchemy.org/en/latest/core/engines.html#database-urls)
+
+Criando um ambiente de desenvolvimento isolado: `virtualenv -p python3.6 .venv`.
+
+Ativando o ambiente: `source .venv/bin/activate`.
+
+Instalando as dependências do sistema: `pip install -r requirements.txt`.
+
+## Gerando Migrações
+```bash
+	flask db init
+	flask db migrate -m "Created Meeting Room"
+	flask db upgrade
+```
 
 ## Executando a aplicação
 
+Executa a aplicação: `flask run`.
+
+Rodando na porta padrão, caso não seja alterado: [http://localhost:5000](http://localhost:5000).
+
+Assim que iniciada a aplicação, um arquivo de `log` será criado na pasta logs.
 
 ## Recursos API
 
@@ -49,4 +78,4 @@ Recursos desenvolvidos.
 
 
 ## LICENSE
-
+[MIT](https://github.com/fcschmidt/backend-challenge/blob/master/LICENSE)
