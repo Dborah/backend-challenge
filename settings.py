@@ -5,7 +5,8 @@ project_name = 'scheduling'
 
 class Config:
     DEBUG = os.getenv('DEBUG') or False
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL') or f'sqlite:////var/tmp/{project_name}_dev.sqlite'
+    DEFAULT_DATABASE = f'sqlite:////var/tmp/{project_name}_dev.sqlite'
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL') or DEFAULT_DATABASE
     SECRET_KEY = os.getenv('SECRET_KEY')
     SQLALCHEMY_TRACK_MODIFICATIONS = DEBUG
 
