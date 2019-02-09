@@ -5,11 +5,14 @@ from scheduling.blueprints.api.models.room_model import Room as RoomModel
 from scheduling.blueprints.api.models.scheduling_model import Scheduling as SchedulingModel
 
 from scheduling.blueprints.api.responses import (
-    resp_does_not_exist,
-    resp_unavailable,
     resp_created_successfully,
     resp_update_successfully,
     resp_delete_successfully
+    )
+
+from scheduling.blueprints.api.errors import (
+    error_does_not_exist,
+    error_unavailable,
     )
 
 bp_rest = Blueprint('schedules_api', __name__, url_prefix='/api/v1')
@@ -41,10 +44,10 @@ class Schedule(Resource):
 
         query_room = RoomModel.filter_room(room_number)
         if not query_room:
-            return resp_does_not_exist(query_room, 'Room')
+            return error_does_not_exist(query_room, 'Room')
 
         if SchedulingModel.filter_schedules(date, room_number):
-            return resp_unavailable()
+            return error_unavailable()
 
         schedule = SchedulingModel(
             title=title,
@@ -68,14 +71,14 @@ class ScheduleItem(Resource):
 
         query_scheduling = SchedulingModel.get_scheduling(scheduling_id)
         if not query_scheduling:
-            return resp_does_not_exist(None, f'Scheduling {scheduling_id}')
+            return error_does_not_exist(None, f'Scheduling {scheduling_id}')
 
         filter_room = RoomModel.filter_room(room_number)
         if not filter_room:
-            resp_does_not_exist(filter_room, f'Room {room_number}')
+            error_does_not_exist(filter_room, f'Room {room_number}')
 
         if SchedulingModel.filter_schedules(date, room_number):
-            return resp_unavailable()
+            return error_unavailable()
 
         data = {
             'title': title,
@@ -89,7 +92,7 @@ class ScheduleItem(Resource):
     @staticmethod
     def delete(scheduling_id):
         query_scheduling = SchedulingModel.get_scheduling(scheduling_id)
-        resp_does_not_exist(query_scheduling, f'Scheduling {scheduling_id}')
+        error_does_not_exist(query_scheduling, f'Scheduling {scheduling_id}')
         query_scheduling.delete()
         return resp_delete_successfully('Scheduling')
 
