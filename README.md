@@ -28,7 +28,7 @@ DATABASE_URL='dialect+driver://username:password@host:port/database'
 ```
 Sobre a configuração do SQLAlchemy: [https://docs.sqlalchemy.org/en/latest/core/engines.html#database-urls](https://docs.sqlalchemy.org/en/latest/core/engines.html#database-urls)
 
-**Criando um ambiente de desenvolvimento isolado com [virtualenv]() ou [pipenv]():**
+**Criando um ambiente de desenvolvimento isolado com [virtualenv](https://virtualenv.pypa.io/en/latest/) ou [pipenv](https://pipenv.readthedocs.io/en/latest/):**
 
 `$ virtualenv -p python3.6 .venv`.
 
@@ -63,7 +63,9 @@ Endpoints de acesso aos Recursos.
 Algumas ferramentas e modulos para acessar os recurso da API:
 
 Via terminal [Curl](https://curl.haxx.se/), 
-Usando Scripts em Python com [requests](http://docs.python-requests.org/en/master/), 
+
+Usando Scripts em Python com [requests](http://docs.python-requests.org/en/master/),
+ 
 Aplicações para testar API [Postman](https://www.getpostman.com/), [Insomnia](https://insomnia.rest/?utm_content=bufferd23bb&utm_medium=social&utm_source=twitter.com&utm_campaign=buffer).
 
 
