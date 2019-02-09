@@ -95,5 +95,5 @@ Aplicações para testar API [Postman](https://www.getpostman.com/), [Insomnia](
 |GET|`http://127.0.0.1:5000/api/v1/schedules?date=01/03/2019&room_number=10`|200|Lista e Filtra os Agendamentos por Data e Sala.|
 
 
-## LICENSE
-[MIT](https://github.com/fcschmidt/backend-challenge/blob/master/LICENSE)
+## License
+[MIT](https://opensource.org/licenses/MIT) © Fábio Schmidt
