@@ -100,7 +100,7 @@ Aplicações para testar API [Postman](https://www.getpostman.com/), [Insomnia](
 
 ## Adicionar melhorias
 
-- [ ] **Mudar o formato da data. **
+- [ ] **Mudar o formato da data.**
 - [ ] **Adicionar hora inicial e hora final.**
 - [ ] **Validação de hora, para que não aja conflito.**
 
